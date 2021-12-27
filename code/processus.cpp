@@ -69,8 +69,6 @@ struct commonData{
 
   //sockaddr_in pere; 
   //sockaddr_in suivant; 
-
-
 }SHM;
 
 std::string getTimeStr(){
