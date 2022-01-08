@@ -11,6 +11,11 @@
 // ./processus 2 192.168.1.65 6002 192.168.1.65 6001
 // ./processus 3 192.168.1.65 6003 192.168.1.65 6001
 
+// Naimi Asus  :
+// ./processus 1 192.168.1.64 6001 192.168.1.64 6001
+// ./processus 2 192.168.1.64 6002 192.168.1.64 6001
+// ./processus 3 192.168.1.64 6005 192.168.1.64 6001
+
 // Naimi Asus ROG avec une grosse carte graphique :
 // ./processus 1 172.29.179.149 6001 172.29.179.149 6001
 // ./processus 2 172.29.179.149 6002 172.29.179.149 6001
@@ -298,7 +303,7 @@ void * fonctionThreadReceveur (void * params){
 
       // si père = "" 
       if(std::string(p_att->ipPere) == std::string("") && std::string(p_att->portPere) == std::string("")){
-          std::cout<<"Demande recus !"<<std::endl; 
+          //std::cout<<"Demande recus !"<<std::endl; 
           // si demande 
           if(p_att->demande == true){
             // suivant := k 
@@ -335,7 +340,7 @@ void * fonctionThreadReceveur (void * params){
       // ------------------------------------------------------
       //                    RECEPTION TOKEN
       // ------------------------------------------------------
-      std::cout<<"Token recus : "<<getTimeStr()<<std::endl;
+      //std::cout<<"Token recus : "<<getTimeStr()<<std::endl;
       
 
       // jeton-présent := vrai 
@@ -393,7 +398,7 @@ void* fonctionThreadEmetteur (void * params){
     // ------------------------------------------------------
     //                        CALCUL
     // ------------------------------------------------------
-    calcul(rand()%4+1); 
+    calcul(rand()%3+4); 
 
     // ------------------------------------------------------
     //          DEMANDE D'ENTRER EN SECTION CRITIQUE
@@ -441,17 +446,17 @@ void* fonctionThreadEmetteur (void * params){
     opp.sem_num = 1;
     opp.sem_op = -1; 
      
-    std::cout<<"Emetteur : J'attend le token"<<std::endl;
+    //std::cout<<"Emetteur : J'attend le token"<<std::endl;
 
     semop(args->idSEM, &opp, 1); // A Remplacer par des variables conditionnelles
-    std::cout<<"Emetteur : J'ai le token ! je rentre en section critique. "<<getTimeStr()<<std::endl;
+    std::cout<<"Entrer : "<<getTimeStr()<<std::endl;
 
     // ------------------------------------------------------
     //              ENTRER EN SECTION CRITIQUE
     // ------------------------------------------------------
     // Calcule dans la section critique 
     calcul(rand()%4+1); 
-    std::cout<<"Emetteur : Section critique fini"<<std::endl;
+    std::cout<<"Sortie : "<<getTimeStr()<<std::endl;
     // ------------------------------------------------------
     //              LIBERATION DE LA RESOURCE
     // ------------------------------------------------------
@@ -460,7 +465,7 @@ void* fonctionThreadEmetteur (void * params){
     opp.sem_op = -1; // Opération 
     //opp.sem_flg = 0; // ??? 
     semop(args->idSEM, &opp, 1);
-    std::cout<<"Emetteur : Verrou prit pour faire la liberation"<<std::endl;
+    //std::cout<<"Emetteur : Verrou prit pour faire la liberation"<<std::endl;
 
     // demande = false;
     p_att->demande = false; 
@@ -468,7 +473,7 @@ void* fonctionThreadEmetteur (void * params){
     // si suivant != "" 
     if(std::string(p_att->ipSuivant) != std::string("") && std::string(p_att->portSuivant) != std::string("")){
       //   envoyer token à suivant;
-      std::cout<<"Emetteur : Je passe le jeton au suivant"<<std::endl;
+      //std::cout<<"Emetteur : Je passe le jeton au suivant"<<std::endl;
       //sendToken(); 
       char* m = strdup("T"); 
       sendMessageTo(m, p_att->ipSuivant, p_att->portSuivant); 
@@ -484,7 +489,7 @@ void* fonctionThreadEmetteur (void * params){
     opp.sem_op = 1; 
      
     semop(args->idSEM, &opp, 1);
-    std::cout<<"Emetteur : Liberation faite je rend le verrou"<<std::endl;
+    //std::cout<<"Emetteur : Liberation faite je rend le verrou"<<std::endl;
   }
 }
 
