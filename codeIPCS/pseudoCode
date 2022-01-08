@@ -1,0 +1,52 @@
+------------------------------------------------------
+Initialisation
+
+pere = 1;
+suivant = "";
+demande = false;  
+
+if pere = i // Soit meme
+	jeton-présent = true;
+	père = ""; 
+sinon 
+	jeton-présent :=faux 
+
+------------------------------------------------------
+Demande de la section critique par le processus i
+
+demande = true;  
+
+si pere == "" 
+	alors entrée en section critique (Incrementer le sem)
+sinon 
+	début envoyer Req(i) à père;
+	père = nil 
+
+------------------------------------------------------
+Procédure de fin d'utilisation de la section critique
+
+demande = false;
+
+si suivant != "" 
+	envoyer token à suivant;
+	jeton-présent := faux;
+	suivant := nil 
+
+------------------------------------------------------
+Réception du message Req (k)(k est le demandeur)
+
+si père = nil 
+	si demande 
+		suivant = k 
+	sinon 
+		début jeton-présent = false; 
+		envoyer token à k 
+sinon 
+	envoyer req(k) à père 
+
+père := k 
+
+------------------------------------------------------
+Réception du message Token
+
+jeton-présent = true;  
